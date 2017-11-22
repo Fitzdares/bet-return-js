@@ -1,0 +1,27 @@
+{
+  "name": "estimated_returns",
+  "version": "0.0.1",
+  "description": "Estimated returns for bet types",
+  "repository": "Fitzdares/estimated_returns",
+  "author": {
+    "name": "Iain McNulty",
+    "contact": "iain@fitzdares.com"
+  },
+  "scripts": {
+    "pretest": "./node_modules/.bin/eslint lib test",
+    "test": "./node_modules/.bin/tape test",
+    "test:cover": "./node_modules/.bin/istanbul cover test"
+  },
+  "main": "lib/main.js",
+  "files": [
+    "lib"
+  ],
+  "license": "GPL-2.0",
+  "devDependencies": {
+    "eslint": "^4.11.0",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.8.0",
+    "istanbul": "^0.4.5",
+    "tape": "^4.8.0"
+  }
+}
