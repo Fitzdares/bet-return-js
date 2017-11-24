@@ -85,7 +85,7 @@ test('ew multiple with two selections', (t) => {
 });
 
 
-test('full cover multiple with two selections', (t) => {
+test('full cover multiple with three selections', (t) => {
 
   const selections = [
     { stake: 10, odds: 5, terms: 0.25 },
@@ -104,7 +104,7 @@ test('full cover multiple with two selections', (t) => {
   t.equal(result, expected);
 });
 
-test('full cover ew multiple with two selections', (t) => {
+test('full cover ew multiple with three selections', (t) => {
 
   const selections = [
     { stake: 10, odds: 5, terms: 0.25 },
