@@ -11,7 +11,7 @@
     "pretest": "eslint lib test",
     "test": "tape -r babel-register test/*",
     "test:cover": "istanbul cover test",
-    "build": "rollup lib/main.js -f es -o dist/main.js && uglifyjs dist/main.js -o dist/main.min.js"
+    "build": "rollup lib/main.js -f es -o dist/bet-return.js && uglifyjs dist/bet-return.js -o dist/bet-return.min.js"
   },
   "main": "lib/main.js",
   "files": [
