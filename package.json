@@ -8,9 +8,10 @@
     "contact": "iain@fitzdares.com"
   },
   "scripts": {
-    "pretest": "./node_modules/.bin/eslint lib test",
-    "test": "./node_modules/.bin/tape test",
-    "test:cover": "./node_modules/.bin/istanbul cover test"
+    "pretest": "eslint lib test",
+    "test": "tape -r babel-register test/*",
+    "test:cover": "istanbul cover test",
+    "build": "rollup lib/main.js -f es -o dist/main.js && uglifyjs dist/main.js -o dist/main.min.js"
   },
   "main": "lib/main.js",
   "files": [
@@ -18,10 +19,13 @@
   ],
   "license": "GPL-2.0",
   "devDependencies": {
+    "babel-register": "^6.26.0",
     "eslint": "^4.11.0",
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-plugin-import": "^2.8.0",
     "istanbul": "^0.4.5",
-    "tape": "^4.8.0"
+    "rollup": "^0.52.0",
+    "tape": "^4.8.0",
+    "uglify-es": "^3.2.0"
   }
 }
