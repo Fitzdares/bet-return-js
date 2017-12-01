@@ -1,4 +1,4 @@
-import { single, accumulator, multiple } from '../lib/main';
+import { single, accumulator, multiple, effectiveOdds } from '../lib/main';
 
 const test = require('tape');
 
@@ -121,6 +121,48 @@ test('full cover ew multiple with three selections', (t) => {
 
   const result = multiple(selections, stake, ewTrue, fullCover);
   const expected = 2410;
+
+  t.equal(result, expected);
+});
+
+test('effective odds with one selection', (t) => {
+  const selections = [
+    { stake: 10, odds: 17, terms: 0.25 }
+  ];
+
+  t.plan(1);
+
+  const result = effectiveOdds(selections);
+  const expected = 17;
+
+  t.equal(result, expected);
+});
+
+test('effective odds with two selections', (t) => {
+  const selections = [
+    { stake: 10, odds: 17, terms: 0.25 },
+    { stake: 10, odds: 21, terms: 0.25 }
+  ];
+
+  t.plan(1);
+
+  const result = effectiveOdds(selections);
+  const expected = 357;
+
+  t.equal(result, expected);
+});
+
+test('effective odds with three selections', (t) => {
+  const selections = [
+    { stake: 10, odds: 17, terms: 0.25 },
+    { stake: 10, odds: 21, terms: 0.25 },
+    { stake: 10, odds: 3, terms: 0.25 }
+  ];
+
+  t.plan(1);
+
+  const result = effectiveOdds(selections);
+  const expected = 1071;
 
   t.equal(result, expected);
 });
