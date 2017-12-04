@@ -1,4 +1,17 @@
-import combinations from './combinations';
+function combinations(collection, size) {
+  const len = collection.length;
+
+  if (size > len) return [];
+  if (!size) return [[]];
+  if (size === len) return [collection];
+
+  return collection.reduce((acc, val, i) => {
+    const res = combinations(collection.slice(i + 1), size - 1)
+      .map(comb => [val].concat(comb));
+
+    return acc.concat(res);
+  }, []);
+}
 
 function bet(stake, odds) {
   return (stake * (odds - 1)) + stake;
@@ -24,11 +37,7 @@ function accumulator(selections, stake, ew, idx = 0, place = 0) {
   const sel = selections[idx];
 
   const res = single({
-    stake,
-    ew,
-    odds: sel.odds,
-    terms: sel.terms,
-    placeStake: place
+    stake, odds: sel.odds, terms: sel.terms, ew, placeStake: place
   });
 
   if (idx + 1 === selections.length) {
@@ -47,9 +56,7 @@ function multiple(selections, stake, ew = false, fullCover = false) {
     allCombos = allCombos.concat(combinations(selections, i));
   }
 
-  allCombos = allCombos.reduce((acc, selection) => acc + accumulator(selection, stake, ew), 0);
-
-  return allCombos;
+  return allCombos.reduce((acc, selection) => acc + accumulator(selection, stake, ew), 0);
 }
 
 module.exports = {
@@ -57,4 +64,3 @@ module.exports = {
   accumulator,
   multiple
 };
-
