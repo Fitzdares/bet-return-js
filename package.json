@@ -28,6 +28,5 @@
     "rollup": "^0.52.0",
     "tape": "^4.8.0",
     "uglify-es": "^3.2.0"
-  },
-  "dependencies": {}
+  }
 }
