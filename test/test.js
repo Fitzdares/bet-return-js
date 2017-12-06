@@ -3,133 +3,143 @@ import { single, accumulator, multiple, effectiveOdds } from '../lib/main';
 const test = require('tape');
 
 test('single win bet is correct', (t) => {
-  const selection = { stake: 10, odds: { decimal: 5 }, terms: 0.25 };
+  const selection = { stake: 10, odds: { decimal: 5 }, terms: '1/4' };
 
   t.plan(1);
 
-  const result = single({
-    stake: selection.stake,
-    odds: selection.odds,
-    terms: selection.terms
-  });
+  const result = single(selection);
 
-  const expected = 50;
-  t.equal(result.total, expected);
+  const expected = { win: 50, place: 0, total: 50 };
+
+  t.deepEqual(result, expected);
 });
 
 test('single win bet with fractional odds is correct', (t) => {
-  const selection = { stake: 10, odds: { fractional: '4/1' }, terms: 0.25 };
+  const selection = { stake: 10, odds: { fractional: '4/1' }, terms: '1/4' };
 
   t.plan(1);
 
-  const result = single({
-    stake: selection.stake,
-    odds: selection.odds,
-    terms: selection.terms
-  });
+  const result = single(selection);
 
-  const expected = 50;
-  t.equal(result.total, expected);
+  const expected = { win: 50, place: 0, total: 50 };
+
+  t.deepEqual(result, expected);
 });
 
 test('single eachway is correct', (t) => {
-  const selection = { stake: 10, odds: { decimal: 5 }, terms: 0.25 };
+  const selection = {
+    stake: 10,
+    odds: { decimal: 5 },
+    terms: '1/4',
+    ew: true
+  };
 
   t.plan(1);
 
-  const result = single({
-    stake: selection.stake, odds: selection.odds, terms: selection.terms, ew: true
-  });
-  const expected = 70;
-  t.equal(result.total, expected);
+  const result = single(selection);
+
+  const expected = { win: 50, place: 20, total: 70 };
+
+  t.deepEqual(result, expected);
 });
 
 test('single eachway with fractional odds is correct', (t) => {
-  const selection = { stake: 10, odds: { fractional: '4/1' }, terms: 0.25 };
+  const selection = {
+    stake: 10,
+    odds: { fractional: '4/1' },
+    terms: '1/4',
+    ew: true
+  };
 
   t.plan(1);
 
-  const result = single({
-    stake: selection.stake, odds: selection.odds, terms: selection.terms, ew: true
-  });
-  const expected = 70;
-  t.equal(result.total, expected);
+  const result = single(selection);
+
+  const expected = { win: 50, place: 20, total: 70 };
+
+  t.deepEqual(result, expected);
 });
 
 test('win double is correct', (t) => {
   const selections = [
-    { stake: 10, odds: { decimal: 5 }, terms: 0.25 },
-    { stake: 10, odds: { decimal: 5 }, terms: 0.25 }
+    { stake: 10, odds: { decimal: 5 }, terms: '1/4' },
+    { stake: 20, odds: { decimal: 6 }, terms: '1/2' }
   ];
-  const ewFalse = false;
+
   const stake = 5;
+  const ew = false;
 
   t.plan(1);
 
-  const result = accumulator(selections, stake, ewFalse);
-  const expected = 125;
+  const result = accumulator(selections, stake, ew);
+  const expected = 150;
+
   t.equal(result, expected);
 });
 
 test('win double with fractional odds is correct', (t) => {
   const selections = [
-    { stake: 10, odds: { fractional: '4/1' }, terms: 0.25 },
-    { stake: 10, odds: { fractional: '4/1' }, terms: 0.25 }
+    { stake: 10, odds: { fractional: '4/1' }, terms: '1/4' },
+    { stake: 10, odds: { fractional: '4/1' }, terms: '1/4' }
   ];
-  const ewFalse = false;
+
   const stake = 5;
+  const ew = false;
 
   t.plan(1);
 
-  const result = accumulator(selections, stake, ewFalse);
+  const result = accumulator(selections, stake, ew);
   const expected = 125;
+
   t.equal(result, expected);
 });
 
 test('eachway double is correct', (t) => {
   const selections = [
-    { stake: 10, odds: { decimal: 5 }, terms: 0.25 },
-    { stake: 10, odds: { decimal: 5 }, terms: 0.25 }
+    { stake: 10, odds: { decimal: 5 }, terms: '1/4' },
+    { stake: 10, odds: { decimal: 5 }, terms: '1/4' }
   ];
 
   const stake = 10;
-  const ewTrue = true;
+  const ew = true;
 
   t.plan(1);
 
-  const result = accumulator(selections, stake, ewTrue);
+  const result = accumulator(selections, stake, ew);
   const expected = 290;
+
   t.equal(result, expected);
 });
 
 test('eachway double with fractional odds is correct', (t) => {
   const selections = [
-    { stake: 10, odds: { fractional: '4/1' }, terms: 0.25 },
-    { stake: 10, odds: { fractional: '4/1' }, terms: 0.25 }
+    { stake: 10, odds: { fractional: '4/1' }, terms: '1/4' },
+    { stake: 10, odds: { fractional: '4/1' }, terms: '1/4' }
   ];
 
   const stake = 10;
-  const ewTrue = true;
+  const ew = true;
 
   t.plan(1);
 
-  const result = accumulator(selections, stake, ewTrue);
+  const result = accumulator(selections, stake, ew);
   const expected = 290;
+
   t.equal(result, expected);
 });
 
 test('multiple with two selections', (t) => {
   const selections = [
-    { stake: 10, odds: { decimal: 5 }, terms: 0.25 },
-    { stake: 10, odds: { decimal: 5 }, terms: 0.25 }
+    { stake: 10, odds: { decimal: 5 }, terms: '1/4' },
+    { stake: 10, odds: { decimal: 5 }, terms: '1/4' }
   ];
   const stake = 10;
-  const ewFalse = false;
+  const ew = false;
   const fullCover = false;
 
   t.plan(1);
 
-  const result = multiple(selections, stake, ewFalse, fullCover);
+  const result = multiple(selections, stake, ew, fullCover);
   const expected = 250;
 
   t.equal(result, expected);
@@ -137,16 +147,16 @@ test('multiple with two selections', (t) => {
 
 test('multiple with fractional odds two selections', (t) => {
   const selections = [
-    { stake: 10, odds: { fractional: '4/1' }, terms: 0.25 },
-    { stake: 10, odds: { fractional: '4/1' }, terms: 0.25 }
+    { stake: 10, odds: { fractional: '4/1' }, terms: '1/4' },
+    { stake: 10, odds: { fractional: '4/1' }, terms: '1/4' }
   ];
   const stake = 10;
-  const ewFalse = false;
+  const ew = false;
   const fullCover = false;
 
   t.plan(1);
 
-  const result = multiple(selections, stake, ewFalse, fullCover);
+  const result = multiple(selections, stake, ew, fullCover);
   const expected = 250;
 
   t.equal(result, expected);
@@ -155,16 +165,16 @@ test('multiple with fractional odds two selections', (t) => {
 
 test('ew multiple with two selections', (t) => {
   const selections = [
-    { stake: 10, odds: { decimal: 5 }, terms: 0.25 },
-    { stake: 10, odds: { decimal: 5 }, terms: 0.25 }
+    { stake: 10, odds: { decimal: 5 }, terms: '1/4' },
+    { stake: 10, odds: { decimal: 5 }, terms: '1/4' }
   ];
   const stake = 10;
-  const ewTrue = true;
+  const ew = true;
   const fullCover = false;
 
   t.plan(1);
 
-  const result = multiple(selections, stake, ewTrue, fullCover);
+  const result = multiple(selections, stake, ew, fullCover);
   const expected = 290;
 
   t.equal(result, expected);
@@ -172,16 +182,16 @@ test('ew multiple with two selections', (t) => {
 
 test('ew multiple with fractional odds two selections', (t) => {
   const selections = [
-    { stake: 10, odds: { fractional: '4/1' }, terms: 0.25 },
-    { stake: 10, odds: { fractional: '4/1' }, terms: 0.25 }
+    { stake: 10, odds: { fractional: '4/1' }, terms: '1/4' },
+    { stake: 10, odds: { fractional: '4/1' }, terms: '1/4' }
   ];
   const stake = 10;
-  const ewTrue = true;
+  const ew = true;
   const fullCover = false;
 
   t.plan(1);
 
-  const result = multiple(selections, stake, ewTrue, fullCover);
+  const result = multiple(selections, stake, ew, fullCover);
   const expected = 290;
 
   t.equal(result, expected);
@@ -189,17 +199,17 @@ test('ew multiple with fractional odds two selections', (t) => {
 
 test('full cover multiple with three selections', (t) => {
   const selections = [
-    { stake: 10, odds: { decimal: 5 }, terms: 0.25 },
-    { stake: 10, odds: { decimal: 5 }, terms: 0.25 },
-    { stake: 10, odds: { decimal: 5 }, terms: 0.25 }
+    { stake: 10, odds: { decimal: 5 }, terms: '1/4' },
+    { stake: 10, odds: { decimal: 5 }, terms: '1/4' },
+    { stake: 10, odds: { decimal: 5 }, terms: '1/4' }
   ];
   const stake = 10;
-  const ewFalse = false;
+  const ew = false;
   const fullCover = true;
 
   t.plan(1);
 
-  const result = multiple(selections, stake, ewFalse, fullCover);
+  const result = multiple(selections, stake, ew, fullCover);
   const expected = 2150;
 
   t.equal(result, expected);
@@ -207,17 +217,17 @@ test('full cover multiple with three selections', (t) => {
 
 test('full cover multiple with fractional odds three selections', (t) => {
   const selections = [
-    { stake: 10, odds: { fractional: '4/1' }, terms: 0.25 },
-    { stake: 10, odds: { fractional: '4/1' }, terms: 0.25 },
-    { stake: 10, odds: { fractional: '4/1' }, terms: 0.25 }
+    { stake: 10, odds: { fractional: '4/1' }, terms: '1/4' },
+    { stake: 10, odds: { fractional: '4/1' }, terms: '1/4' },
+    { stake: 10, odds: { fractional: '4/1' }, terms: '1/4' }
   ];
   const stake = 10;
-  const ewFalse = false;
+  const ew = false;
   const fullCover = true;
 
   t.plan(1);
 
-  const result = multiple(selections, stake, ewFalse, fullCover);
+  const result = multiple(selections, stake, ew, fullCover);
   const expected = 2150;
 
   t.equal(result, expected);
@@ -225,17 +235,17 @@ test('full cover multiple with fractional odds three selections', (t) => {
 
 test('full cover ew multiple with three selections', (t) => {
   const selections = [
-    { stake: 10, odds: { decimal: 5 }, terms: 0.25 },
-    { stake: 10, odds: { decimal: 5 }, terms: 0.25 },
-    { stake: 10, odds: { decimal: 5 }, terms: 0.25 }
+    { stake: 10, odds: { decimal: 5 }, terms: '1/4' },
+    { stake: 10, odds: { decimal: 5 }, terms: '1/4' },
+    { stake: 10, odds: { decimal: 5 }, terms: '1/4' }
   ];
   const stake = 10;
-  const ewTrue = true;
+  const ew = true;
   const fullCover = true;
 
   t.plan(1);
 
-  const result = multiple(selections, stake, ewTrue, fullCover);
+  const result = multiple(selections, stake, ew, fullCover);
   const expected = 2410;
 
   t.equal(result, expected);
@@ -243,17 +253,17 @@ test('full cover ew multiple with three selections', (t) => {
 
 test('full cover ew multiple with fractional odds three selections', (t) => {
   const selections = [
-    { stake: 10, odds: { fractional: '4/1' }, terms: 0.25 },
-    { stake: 10, odds: { fractional: '4/1' }, terms: 0.25 },
-    { stake: 10, odds: { fractional: '4/1' }, terms: 0.25 }
+    { stake: 10, odds: { fractional: '4/1' }, terms: '1/4' },
+    { stake: 10, odds: { fractional: '4/1' }, terms: '1/4' },
+    { stake: 10, odds: { fractional: '4/1' }, terms: '1/4' }
   ];
   const stake = 10;
-  const ewTrue = true;
+  const ew = true;
   const fullCover = true;
 
   t.plan(1);
 
-  const result = multiple(selections, stake, ewTrue, fullCover);
+  const result = multiple(selections, stake, ew, fullCover);
   const expected = 2410;
 
   t.equal(result, expected);
@@ -261,7 +271,7 @@ test('full cover ew multiple with fractional odds three selections', (t) => {
 
 test('effective odds with one selection', (t) => {
   const selections = [
-    { stake: 10, odds: { decimal: 17 }, terms: 0.25 }
+    { stake: 10, odds: { decimal: 17 }, terms: '1/4' }
   ];
 
   t.plan(1);
@@ -274,8 +284,8 @@ test('effective odds with one selection', (t) => {
 
 test('effective odds with two selections', (t) => {
   const selections = [
-    { stake: 10, odds: { decimal: 17 }, terms: 0.25 },
-    { stake: 10, odds: { decimal: 21 }, terms: 0.25 }
+    { stake: 10, odds: { decimal: 17 }, terms: '1/4' },
+    { stake: 10, odds: { decimal: 21 }, terms: '1/4' }
   ];
 
   t.plan(1);
@@ -288,9 +298,9 @@ test('effective odds with two selections', (t) => {
 
 test('effective odds with three selections', (t) => {
   const selections = [
-    { stake: 10, odds: { decimal: 17 }, terms: 0.25 },
-    { stake: 10, odds: { decimal: 21 }, terms: 0.25 },
-    { stake: 10, odds: { decimal: 3 }, terms: 0.25 }
+    { stake: 10, odds: { decimal: 17 }, terms: '1/4' },
+    { stake: 10, odds: { decimal: 21 }, terms: '1/4' },
+    { stake: 10, odds: { decimal: 3 }, terms: '1/4' }
   ];
 
   t.plan(1);
@@ -303,9 +313,9 @@ test('effective odds with three selections', (t) => {
 
 test('effective odds with fractional odds three selections', (t) => {
   const selections = [
-    { stake: 10, odds: { fractional: '16/1' }, terms: 0.25 },
-    { stake: 10, odds: { fractional: '20/1' }, terms: 0.25 },
-    { stake: 10, odds: { fractional: '2/1' }, terms: 0.25 }
+    { stake: 10, odds: { fractional: '16/1' }, terms: '1/4' },
+    { stake: 10, odds: { fractional: '20/1' }, terms: '1/4' },
+    { stake: 10, odds: { fractional: '2/1' }, terms: '1/4' }
   ];
 
   t.plan(1);
