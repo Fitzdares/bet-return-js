@@ -268,23 +268,6 @@ test('full cover ew multiple with three selections', (t) => {
   t.equal(result, expected);
 });
 
-test('ew and fullCover default to false', (t) => {
-  const params = {
-    selections: [
-      { stake: 10, odds: { fractional: '4/1' }, terms: '1/4' },
-      { stake: 10, odds: { fractional: '4/1' }, terms: '1/4' }
-    ],
-    stake: 10
-  };
-
-  t.plan(1);
-
-  const result = multiple(params);
-  const expected = 250;
-
-  t.equal(result, expected);
-});
-
 test('full cover ew multiple with fractional odds three selections', (t) => {
   const params = {
     selections: [
@@ -301,6 +284,23 @@ test('full cover ew multiple with fractional odds three selections', (t) => {
 
   const result = multiple(params);
   const expected = 2410;
+
+  t.equal(result, expected);
+});
+
+test('ew and fullCover default to false', (t) => {
+  const params = {
+    selections: [
+      { stake: 10, odds: { fractional: '4/1' }, terms: '1/4' },
+      { stake: 10, odds: { fractional: '4/1' }, terms: '1/4' }
+    ],
+    stake: 10
+  };
+
+  t.plan(1);
+
+  const result = multiple(params);
+  const expected = 250;
 
   t.equal(result, expected);
 });
