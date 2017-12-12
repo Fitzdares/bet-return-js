@@ -53,32 +53,12 @@ test("doesn't alter decimal odds", (t) => {
   t.equal(result, expected);
 });
 
-test("doesn't alter decimal odds", (t) => {
-  t.plan(1);
-
-  const result = oddsConversion.toDecimal({ decimal: 6.0 });
-
-  const expected = 6.0;
-
-  t.equal(result, expected);
-});
-
 test('returns 1 with no odds args', (t) => {
   t.plan(1);
 
   const result = oddsConversion.toDecimal({ });
 
   const expected = 1.0;
-
-  t.equal(result, expected);
-});
-
-test("doesn't alter decimal odds", (t) => {
-  t.plan(1);
-
-  const result = oddsConversion.toDecimal({ decimal: 6.0 });
-
-  const expected = 6.0;
 
   t.equal(result, expected);
 });
