@@ -1,8 +1,8 @@
 {
-  "name": "estimated_returns",
+  "name": "bet-return-js",
   "version": "0.0.1",
   "description": "Estimated returns for bet types",
-  "repository": "Fitzdares/estimated_returns",
+  "repository": "Fitzdares/bet-return-js",
   "author": {
     "name": "Iain McNulty",
     "contact": "iain@fitzdares.com"
@@ -10,23 +10,26 @@
   "scripts": {
     "pretest": "eslint lib test",
     "test": "tape -r babel-register test/*",
-    "test:cover": "istanbul cover test",
-    "build": "rollup lib/main.js -f es -o dist/bet-return.js && uglifyjs dist/bet-return.js -o dist/bet-return.min.js"
+    "test:cover": "nyc --require=babel-core/register npm run test",
+    "build": "rollup -c && uglifyjs dist/bet-return.js -o dist/bet-return.min.js"
   },
   "main": "lib/main.js",
   "files": [
     "lib"
   ],
   "license": "GPL-2.0",
-  "dependencies": {},
+  "dependencies": {
+    "fraction.js": "^4.0.4"
+  },
   "devDependencies": {
     "babel-preset-env": "^1.6.1",
     "babel-register": "^6.26.0",
     "eslint": "^4.11.0",
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-plugin-import": "^2.8.0",
-    "istanbul": "^0.4.5",
+    "nyc": "^11.3.0",
     "rollup": "^0.52.0",
+    "rollup-plugin-babel": "^3.0.2",
     "tape": "^4.8.0",
     "uglify-es": "^3.2.0"
   }
