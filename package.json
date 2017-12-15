@@ -1,6 +1,6 @@
 {
   "name": "bet-return-js",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "description": "Estimated returns for bet types",
   "repository": "Fitzdares/bet-return-js",
   "author": {
@@ -11,7 +11,10 @@
     "pretest": "eslint lib test",
     "test": "tape -r babel-register test/*",
     "test:cover": "nyc --require=babel-core/register npm run test",
-    "build": "rollup -c && uglifyjs dist/bet-return.js -o dist/bet-return.min.js"
+    "build": "rollup -c && uglifyjs dist/bet-return.js -o dist/bet-return.min.js",
+    "preversion": "npm test",
+    "version": "npm run build && git add -A dist",
+    "postversion": "git push && git push --tags"
   },
   "main": "lib/main.js",
   "files": [
