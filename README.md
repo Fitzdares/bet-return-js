@@ -5,11 +5,11 @@
 
 ## Usage
 ```
-import { bet, single, accumulator, multiple, effectiveOdds } from 'bet-return-js';
+import { single, accumulator, multiple, effectiveOdds } from 'bet-return-js';
+```
 
-bet(100, 5.0)
-// $> 500
-
+### Single
+```
 single({ stake: 10, odds: { decimal: 5 }, terms: '1/4' });
 // $> { win: 50, place: 0, total: 50 }
 
@@ -18,7 +18,33 @@ single({ stake: 10, odds: { fractional: '4/1' }, terms: '1/4' });
 
 single({ stake: 10, odds: { decimal: 5 }, terms: '1/4', ew: true });
 // $> { win: 50, place: 20, total: 70 }
+```
 
+### Accumulator
+```
+accumulator({
+  selections: [
+    { stake: 10, odds: { decimal: 5 }, terms: '1/4' },
+    { stake: 20, odds: { decimal: 6 }, terms: '1/2' }
+  ],
+  stake: 5,
+  ew: false
+};
+// $> 150
+
+accumulator({
+  selections: [
+    { stake: 10, odds: { decimal: 5 }, terms: '1/4' },
+    { stake: 10, odds: { decimal: 5 }, terms: '1/4' }
+  ],
+  stake: 10,
+  ew: true
+};
+// $> 290
+```
+
+### Multiple
+```
 multiple({
   selections: [
     { stake: 10, odds: { fractional: '4/1' }, terms: '1/4' },
@@ -61,5 +87,16 @@ multiple({
   fullCover: true
 });
 // $> 2410
+```
 
-
+### Effective Odds
+```
+effectiveOdds(
+  [
+    { stake: 10, odds: { fractional: '17/2' }, terms: '1/4' },
+    { stake: 10, odds: { fractional: '20/1' }, terms: '1/4' },
+    { stake: 10, odds: { fractional: '2/1' }, terms: '1/4' }
+  ]
+);
+// $> { decimal: 598.5, fractional: '1195/2' }
+```
