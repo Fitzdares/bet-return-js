@@ -908,9 +908,4 @@ function effectiveOdds(selections) {
   return { decimal: decimalOdds, fractional: fractionalOdds };
 }
 
-module.exports = {
-  single,
-  accumulator,
-  multiple,
-  effectiveOdds
-};
+export { single, accumulator, multiple, effectiveOdds };
