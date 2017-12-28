@@ -16,8 +16,9 @@
     "version": "npm run build && git add -A dist",
     "postversion": "git push && git push --tags"
   },
-  "main": "lib/main.js",
+  "main": "dist/bet-return.min.js",
   "files": [
+    "dist",
     "lib"
   ],
   "license": "GPL-2.0",
