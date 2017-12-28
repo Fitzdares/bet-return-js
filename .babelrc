@@ -1,4 +1,8 @@
 {
-  "presets": ["env"]
+  "presets": [
+      ["env", {
+        "forceAllTransforms": true
+      }
+    ]
+  ]
 }
-
