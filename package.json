@@ -18,8 +18,7 @@
   },
   "main": "dist/bet-return.min.js",
   "files": [
-    "dist",
-    "lib"
+    "dist"
   ],
   "license": "GPL-2.0",
   "dependencies": {
