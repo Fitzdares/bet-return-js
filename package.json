@@ -9,9 +9,10 @@
   },
   "scripts": {
     "pretest": "eslint lib test",
-    "test": "tape -r babel-register test/*",
+    "test": "NODE_ENV=test tape -r babel-register test/*",
     "test:cover": "nyc --require=babel-core/register npm run test",
     "build": "rollup -c && uglifyjs dist/bet-return.js -o dist/bet-return.min.js",
+    "uglify": "uglifyjs dist/bet-return.js -o dist/bet-return.min.js",
     "preversion": "npm test",
     "version": "npm run build && git add -A dist",
     "postversion": "git push && git push --tags"
@@ -37,6 +38,6 @@
     "rollup-plugin-commonjs": "^8.2.6",
     "rollup-plugin-node-resolve": "^3.0.0",
     "tape": "^4.8.0",
-    "uglify-es": "^3.2.0"
+    "uglify-es": "^3.3.3"
   }
 }
