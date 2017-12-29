@@ -11,7 +11,7 @@
     "pretest": "eslint lib test",
     "test": "NODE_ENV=test tape -r babel-register test/*",
     "test:cover": "nyc --require=babel-core/register npm run test",
-    "build": "rollup -c && uglifyjs dist/bet-return.js -o dist/bet-return.min.js",
+    "build": "rollup -c && npm run uglify",
     "uglify": "uglifyjs dist/bet-return.js -o dist/bet-return.min.js",
     "preversion": "npm test",
     "version": "npm run build && git add -A dist",

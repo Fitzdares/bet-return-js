@@ -16,9 +16,7 @@ export default {
     }),
     commonjs(),
     babel({
-      exclude: 'node_modules/**',
-      comments: true,
-      runtimeHelpers: true
+      exclude: 'node_modules/**'
     })
   ]
 };
