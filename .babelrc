@@ -1,8 +1,23 @@
 {
   "presets": [
-      ["env", {
-        "forceAllTransforms": true
+    [
+      "env",
+      {
+        "modules": false
       }
     ]
-  ]
+  ],
+  "env": {
+    "test": {
+      "presets": [
+        [
+          "env",
+          {
+            "modules": "commonjs",
+          }
+        ]
+      ]
+    }
+  }
 }
+

@@ -1,13 +1,14 @@
 function combinations(collection, size) {
-  const len = collection.length;
+  var len = collection.length;
 
   if (size > len) return [];
   if (!size) return [[]];
   if (size === len) return [collection];
 
-  return collection.reduce((acc, val, i) => {
-    const res = combinations(collection.slice(i + 1), size - 1)
-      .map(comb => [val].concat(comb));
+  return collection.reduce(function (acc, val, i) {
+    var res = combinations(collection.slice(i + 1), size - 1).map(function (comb) {
+      return [val].concat(comb);
+    });
 
     return acc.concat(res);
   }, []);
@@ -803,30 +804,34 @@ var fraction = createCommonjsModule(function (module, exports) {
 })(commonjsGlobal);
 });
 
-const fractionConversion = {
-  toDecimal(value) {
+var fractionConversion = {
+  toDecimal: function toDecimal(value) {
     return new fraction(value).valueOf();
   },
+  toFractional: function toFractional(value) {
+    var fraction$$1 = new fraction(value);
+    var numerator = fraction$$1.n;
+    var denominator = fraction$$1.d;
 
-  toFractional(value) {
-    const fraction$$1 = new fraction(value);
-    const numerator = fraction$$1.n;
-    const denominator = fraction$$1.d;
-
-    return `${numerator}/${denominator}`;
+    return numerator + '/' + denominator;
   }
 };
 
-const oddsConversion = {
-  toDecimal({ decimal, fractional }) {
+var oddsConversion = {
+  toDecimal: function toDecimal(_ref) {
+    var decimal = _ref.decimal,
+        fractional = _ref.fractional;
+
     if (decimal) {
       return decimal;
     }
 
     return 1.0 + fractionConversion.toDecimal(fractional);
   },
+  toFractional: function toFractional(_ref2) {
+    var decimal = _ref2.decimal,
+        fractional = _ref2.fractional;
 
-  toFractional({ decimal, fractional }) {
     if (fractional) {
       return fractional;
     }
@@ -836,30 +841,39 @@ const oddsConversion = {
 };
 
 function bet(stake, odds) {
-  return (stake * (odds - 1)) + stake;
+  return stake * (odds - 1) + stake;
 }
 
-function single({
-  stake, odds, terms, ew = false, placeStake = 0
-}) {
-  const decimalTerms = fractionConversion.toDecimal(terms);
-  const decimalOdds = oddsConversion.toDecimal(odds);
-  const newPlaceStake = ew && placeStake === 0 ? stake : placeStake;
-  const placeReturn = ew ? bet(newPlaceStake, ((decimalOdds - 1) * decimalTerms) + 1) : 0;
-  const winReturn = bet(stake, decimalOdds);
+function single(_ref) {
+  var stake = _ref.stake,
+      odds = _ref.odds,
+      terms = _ref.terms,
+      _ref$ew = _ref.ew,
+      ew = _ref$ew === undefined ? false : _ref$ew,
+      _ref$placeStake = _ref.placeStake,
+      placeStake = _ref$placeStake === undefined ? 0 : _ref$placeStake;
+
+  var decimalTerms = fractionConversion.toDecimal(terms);
+  var decimalOdds = oddsConversion.toDecimal(odds);
+  var newPlaceStake = ew && placeStake === 0 ? stake : placeStake;
+  var placeReturn = ew ? bet(newPlaceStake, (decimalOdds - 1) * decimalTerms + 1) : 0;
+  var winReturn = bet(stake, decimalOdds);
 
   return {
     win: winReturn,
     place: placeReturn,
-    total: (winReturn + placeReturn)
+    total: winReturn + placeReturn
   };
 }
 
-function calculateAccumulator(selections, stake, ew, idx = 0, place = 0) {
-  const sel = selections[idx];
-  const res = single({
-    stake,
-    ew,
+function calculateAccumulator(selections, stake, ew) {
+  var idx = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0;
+  var place = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 0;
+
+  var sel = selections[idx];
+  var res = single({
+    stake: stake,
+    ew: ew,
     odds: sel.odds,
     terms: sel.terms,
     placeStake: place
@@ -872,38 +886,50 @@ function calculateAccumulator(selections, stake, ew, idx = 0, place = 0) {
   return calculateAccumulator(selections, res.win, ew, idx + 1, res.place || 0);
 }
 
-function accumulator({
-  selections, stake, ew, idx, place
-}) {
+function accumulator(_ref2) {
+  var selections = _ref2.selections,
+      stake = _ref2.stake,
+      ew = _ref2.ew,
+      idx = _ref2.idx,
+      place = _ref2.place;
+
   return calculateAccumulator(selections, stake, ew, idx, place);
 }
 
-function calculateMultiple(selections, stake, ew = false, fullCover = false) {
-  const count = selections.length;
-  const start = fullCover ? 1 : 2;
-  let allCombos = [];
+function calculateMultiple(selections, stake) {
+  var ew = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+  var fullCover = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
 
-  for (let i = start; i <= count; i += 1) {
+  var count = selections.length;
+  var start = fullCover ? 1 : 2;
+  var allCombos = [];
+
+  for (var i = start; i <= count; i += 1) {
     allCombos = allCombos.concat(combinations(selections, i));
   }
 
-  const totalReturn = allCombos.reduce((acc, selection) =>
-    acc + calculateAccumulator(selection, stake, ew), 0);
+  var totalReturn = allCombos.reduce(function (acc, selection) {
+    return acc + calculateAccumulator(selection, stake, ew);
+  }, 0);
 
   return totalReturn;
 }
 
-function multiple({
-  selections, stake, ew, fullCover
-}) {
+function multiple(_ref3) {
+  var selections = _ref3.selections,
+      stake = _ref3.stake,
+      ew = _ref3.ew,
+      fullCover = _ref3.fullCover;
+
   return calculateMultiple(selections, stake, ew, fullCover);
 }
 
 function effectiveOdds(selections) {
-  const decimalOdds = selections.reduce((acc, selection) =>
-    acc * oddsConversion.toDecimal(selection.odds), 1);
+  var decimalOdds = selections.reduce(function (acc, selection) {
+    return acc * oddsConversion.toDecimal(selection.odds);
+  }, 1);
 
-  const fractionalOdds = oddsConversion.toFractional({ decimal: decimalOdds });
+  var fractionalOdds = oddsConversion.toFractional({ decimal: decimalOdds });
 
   return { decimal: decimalOdds, fractional: fractionalOdds };
 }
