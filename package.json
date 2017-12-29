@@ -1,6 +1,6 @@
 {
   "name": "bet-return-js",
-  "version": "1.0.2",
+  "version": "1.0.4",
   "description": "Estimated returns for bet types",
   "repository": "Fitzdares/bet-return-js",
   "author": {
@@ -18,8 +18,7 @@
   },
   "main": "dist/bet-return.min.js",
   "files": [
-    "dist",
-    "lib"
+    "dist"
   ],
   "license": "GPL-2.0",
   "dependencies": {
