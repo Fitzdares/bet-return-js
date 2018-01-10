@@ -804,6 +804,8 @@ var fraction = createCommonjsModule(function (module, exports) {
 })(commonjsGlobal);
 });
 
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
 var fractionConversion = {
   toDecimal: function toDecimal(value) {
     return new fraction(value).valueOf();
@@ -812,6 +814,10 @@ var fractionConversion = {
     var fraction$$1 = new fraction(value);
     var numerator = fraction$$1.n;
     var denominator = fraction$$1.d;
+
+    if (numerator === 3 && denominator === 2) {
+      return '6/4';
+    }
 
     return numerator + '/' + denominator;
   }
@@ -830,13 +836,25 @@ var oddsConversion = {
   },
   toFractional: function toFractional(_ref2) {
     var decimal = _ref2.decimal,
-        fractional = _ref2.fractional;
+        fractional = _ref2.fractional,
+        multipleSelections = _ref2.multipleSelections;
 
     if (fractional) {
       return fractional;
     }
 
-    return fractionConversion.toFractional(decimal - 1);
+    var fraction$$1 = fractionConversion.toFractional(decimal - 1);
+
+    if (multipleSelections) {
+      var _fraction$split = fraction$$1.split('/'),
+          _fraction$split2 = _slicedToArray(_fraction$split, 2),
+          numerator = _fraction$split2[0],
+          denominator = _fraction$split2[1];
+
+      return numerator / denominator + '/1';
+    }
+
+    return fraction$$1;
   }
 };
 
@@ -925,11 +943,16 @@ function multiple(_ref3) {
 }
 
 function effectiveOdds(selections) {
+  var multipleSelections = selections.length > 1;
+
   var decimalOdds = selections.reduce(function (acc, selection) {
     return acc * oddsConversion.toDecimal(selection.odds);
   }, 1);
 
-  var fractionalOdds = oddsConversion.toFractional({ decimal: decimalOdds });
+  var fractionalOdds = oddsConversion.toFractional({
+    decimal: decimalOdds,
+    multipleSelections: multipleSelections
+  });
 
   return { decimal: decimalOdds, fractional: fractionalOdds };
 }
