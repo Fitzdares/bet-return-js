@@ -90,6 +90,18 @@ multiple({
 ```
 
 ### Effective Odds
+#### One selection
+
+```
+effectiveOdds(
+  [
+    { stake: 10, odds: { fractional: '17/2' }, terms: '1/4' }
+  ]
+);
+// $> { decimal: 9.5, fractional: '17/2' }
+```
+
+#### Two or more selections
 ```
 effectiveOdds(
   [
@@ -98,5 +110,18 @@ effectiveOdds(
     { stake: 10, odds: { fractional: '2/1' }, terms: '1/4' }
   ]
 );
-// $> { decimal: 598.5, fractional: '1195/2' }
+// $> { decimal: 598.5, fractional: '597.5/1' }
 ```
+
+## Contributing
+
+### Build
+
+`> rollup -c rollup.config.js`
+
+### Minify
+
+`> npm install -g uglify-es`
+
+`> uglifyjs dist/bet-return.js -o dist/bet-return.min.js`
+
