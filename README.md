@@ -4,12 +4,12 @@
 `> npm install bet-return-js`
 
 ## Usage
-```
+```javascript
 import { single, accumulator, multiple, effectiveOdds } from 'bet-return-js';
 ```
 
 ### Single
-```
+```javascript
 single({ stake: 10, odds: { decimal: 5 }, terms: '1/4' });
 // $> { win: 50, place: 0, total: 50 }
 
@@ -21,7 +21,7 @@ single({ stake: 10, odds: { decimal: 5 }, terms: '1/4', ew: true });
 ```
 
 ### Accumulator
-```
+```javascript
 accumulator({
   selections: [
     { stake: 10, odds: { decimal: 5 }, terms: '1/4' },
@@ -44,7 +44,7 @@ accumulator({
 ```
 
 ### Multiple
-```
+```javascript
 multiple({
   selections: [
     { stake: 10, odds: { fractional: '4/1' }, terms: '1/4' },
@@ -92,7 +92,7 @@ multiple({
 ### Effective Odds
 #### One selection
 
-```
+```javascript
 effectiveOdds(
   [
     { stake: 10, odds: { fractional: '17/2' }, terms: '1/4' }
@@ -102,7 +102,7 @@ effectiveOdds(
 ```
 
 #### Two or more selections
-```
+```javascript
 effectiveOdds(
   [
     { stake: 10, odds: { fractional: '17/2' }, terms: '1/4' },
