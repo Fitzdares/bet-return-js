@@ -354,7 +354,7 @@ test('effective odds with three selections', (t) => {
   t.plan(1);
 
   const result = effectiveOdds(selections);
-  const expected = { decimal: 1249.5, fractional: '2497/2' };
+  const expected = { decimal: 1249.5, fractional: '1248.5/1' };
 
   t.deepEqual(result, expected);
 });
@@ -369,7 +369,7 @@ test('effective odds with fractional odds three selections', (t) => {
   t.plan(1);
 
   const result = effectiveOdds(selections);
-  const expected = { decimal: 598.5, fractional: '1195/2' };
+  const expected = { decimal: 598.5, fractional: '597.5/1' };
 
   t.deepEqual(result, expected);
 });
