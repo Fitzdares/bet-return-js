@@ -66,6 +66,17 @@ multiple({
 
 multiple({
   selections: [
+    { stake: 10, odds: { decimal: 10 }, terms: '1/4' },
+    { stake: 10, odds: { decimal: 10 }, terms: '1/4' },
+    { stake: 10, odds: { decimal: 5 }, terms: '1/4' }
+  ],
+  stake: 10,
+  size: 2
+});
+// $> 2000
+
+multiple({
+  selections: [
     { stake: 10, odds: { decimal: 5 }, terms: '1/4' },
     { stake: 10, odds: { decimal: 5 }, terms: '1/4' },
     { stake: 10, odds: { decimal: 5 }, terms: '1/4' }

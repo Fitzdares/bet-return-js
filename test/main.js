@@ -287,6 +287,25 @@ test('full cover ew multiple with fractional odds three selections', (t) => {
   t.equal(result, expected);
 });
 
+test('multiple doubles with three selections', (t) => {
+  const params = {
+    selections: [
+      { stake: 10, odds: { decimal: 10 }, terms: '1/4' },
+      { stake: 10, odds: { decimal: 10 }, terms: '1/4' },
+      { stake: 10, odds: { decimal: 5 }, terms: '1/4' }
+    ],
+    stake: 10,
+    size: 2
+  };
+
+  t.plan(1);
+
+  const result = multiple(params);
+  const expected = 2000;
+
+  t.equal(result, expected);
+});
+
 test('ew and fullCover default to false', (t) => {
   const params = {
     selections: [
