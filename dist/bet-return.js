@@ -914,11 +914,11 @@ function accumulator(_ref2) {
   return calculateAccumulator(selections, stake, ew, idx, place);
 }
 
-function calculateMultiple(selections, stake) {
-  var ew = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
-  var fullCover = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
+function calculateMultiple(selections, stake, opts) {
+  var ew = opts.ew,
+      fullCover = opts.fullCover,
+      count = opts.count;
 
-  var count = selections.length;
   var start = fullCover ? 1 : 2;
   var allCombos = [];
 
@@ -937,9 +937,12 @@ function multiple(_ref3) {
   var selections = _ref3.selections,
       stake = _ref3.stake,
       ew = _ref3.ew,
-      fullCover = _ref3.fullCover;
+      fullCover = _ref3.fullCover,
+      size = _ref3.size;
 
-  return calculateMultiple(selections, stake, ew, fullCover);
+  var count = size || selections.length;
+  var opts = { ew: ew, fullCover: fullCover, count: count };
+  return calculateMultiple(selections, stake, opts);
 }
 
 function effectiveOdds(selections) {
